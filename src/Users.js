@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { createUser } from './store';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 const Users = ({ users, createUser }) => {
   return (
@@ -9,7 +10,11 @@ const Users = ({ users, createUser }) => {
       <button onClick={() => createUser(Math.random())}>Create User</button>
       <ul>
         {users.map((user) => {
-          return <li key={user.id}>{user.name}</li>;
+          return (
+            <li key={user.id}>
+              <Link to={`users/${user.id}`}>{user.name}</Link>
+            </li>
+          );
         })}
       </ul>
     </div>

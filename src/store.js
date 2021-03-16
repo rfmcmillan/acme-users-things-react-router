@@ -1,18 +1,17 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 const LOAD_USERS = 'LOAD_USERS';
-const CREATE_USER = 'CREATE_USER';
+const CREATE = 'CREATE';
 const LOAD_THINGS = 'LOAD_THINGS';
-const SET_VIEW = 'SET_VIEW';
 import axios from 'axios';
 import thunk from 'redux-thunk';
-import logger from 'redux-logger';
+//import logger from 'redux-logger';
 
 //Reducers
 const usersReducer = (state = [], action) => {
   if (action.type === LOAD_USERS) {
     state = action.users;
   }
-  if (action.type === CREATE_USER) {
+  if (action.type === CREATE) {
     state = [...state, action.user];
   }
   return state;
@@ -25,24 +24,17 @@ const thingsReducer = (state = [], action) => {
   return state;
 };
 
-const viewReducer = (state = [], action) => {
-  if (action.type === SET_VIEW) {
-    state = action.view;
-  }
-  return state;
-};
-
 //Reducer Combiner
 
 const reducer = combineReducers({
   users: usersReducer,
   things: thingsReducer,
-  view: viewReducer,
 });
 
 //Create the Store
 
-const store = createStore(reducer, applyMiddleware(thunk, logger));
+//apply logger here if you'd like
+const store = createStore(reducer, applyMiddleware(thunk));
 
 //Action Creators
 
@@ -50,6 +42,13 @@ const _loadUsers = (users) => {
   return {
     type: LOAD_USERS,
     users,
+  };
+};
+
+const _createUser = (user) => {
+  return {
+    type: CREATE,
+    user,
   };
 };
 
@@ -74,20 +73,6 @@ const loadUsers = () => {
   };
 };
 
-const setView = (view) => {
-  return {
-    type: SET_VIEW,
-    view,
-  };
-};
-
-const _createUser = (user) => {
-  return {
-    type: CREATE_USER,
-    user,
-  };
-};
-
 const createUser = (name) => {
   return async (dispatch) => {
     const user = (await axios.post('/api/users', { name })).data;
@@ -96,4 +81,4 @@ const createUser = (name) => {
 };
 
 export default store;
-export { loadUsers, loadThings, setView, createUser };
+export { loadUsers, loadThings, createUser };
