@@ -12,6 +12,8 @@ const User = ({ user }) => {
 };
 
 //the function passed into the connect() is the MapStateToProps function that react-redux uses
+//he does this logic here so that he doesn't have to do it within the User component.
+//But all he is doing is setting the user const if the user id matches the 'match' prop's id prop
 
 export default connect((state, otherProps) => {
   console.log(otherProps);

@@ -7,30 +7,6 @@ import Users from './Users';
 import User from './User';
 import { HashRouter as Router, Route } from 'react-router-dom';
 
-/*
-class Route extends Component {
-  constructor() {
-    super();
-    this.state = {
-      view: '',
-    };
-  }
-
-  componentDidMount() {
-    window.addEventListener('hashchange', () => {
-      this.setState({ view: window.location.hash.slice(1) });
-    });
-    this.setState({ view: window.location.hash.slice(1) });
-  }
-
-  render() {
-    console.log(this.state);
-    const HashConnected = this.props.component;
-    return <HashConnected {...this.state} />;
-  }
-}
-*/
-
 const Home = () => <hr />;
 
 const App = connect(
@@ -52,8 +28,15 @@ const App = connect(
     }
     render() {
       return (
+        //HashRouter: a Router from react-router-dom that uses the # portion of the URL (window.location.hash) to route to different pages
         <Router>
           <div>
+            {/*
+            Route: per react-router docs, maybe the most important component in React Router to learn
+            It renders some UI - in this case a React Component - when its path matches the current URL.
+            - the component prop contains the React component to be rendered when the url matches the path.
+            - 'exact' when exact is added as a prop, will only display the component if the url matches the path prop exactly.
+            */}
             <Route component={Nav} />
             <Route component={Home} path="/" exact />
             <Route component={Users} path="/users" exact />
@@ -68,6 +51,7 @@ const App = connect(
 //on the path that is an axact match for '/'
 
 render(
+  //<Provider> allows any nested components to have access to the store.
   <Provider store={store}>
     <App />
   </Provider>,
